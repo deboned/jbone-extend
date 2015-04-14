@@ -1,5 +1,5 @@
 /*!
- *  v0.0.1 - 2015-04-14 - Extend jbone for use with other libs than Bb.
+ *  v0.0.1 - 2015-04-15 - Extend jbone for use with other libs than Bb.
  *
  * https://github.com/deboned/jbone-extend
  *
@@ -18,6 +18,66 @@ var fn = jBone.fn;
 jBone.fn.jquery = jBone.prototype.jquery = "99.99.99";
 jBone.fn.split = jBone.prototype.split = "".split;
 
+var class2type = function() {
+  // [[Class]] -> type pairs
+  return {};
+};
+
+jBone.extend(jBone, {
+  isFunction: function( obj ) {
+    return jBone.type(obj) === "function";
+  },
+
+  isArray: Array.isArray,
+
+  isWindow: function( obj ) {
+    return obj != null && obj === obj.window;
+  },
+
+  isNumeric: function( obj ) {
+    // parseFloat NaNs numeric-cast false positives (null|true|false|"")
+    // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+    // subtraction forces infinities to NaN
+    // adding 1 corrects loss of precision from parseFloat (#15100)
+    return !jBone.isArray( obj ) && (obj - parseFloat( obj ) + 1) >= 0;
+  },
+
+  isPlainObject: function( obj ) {
+    // Not plain objects:
+    // - Any object or value whose internal [[Class]] property is not "[object Object]"
+    // - DOM nodes
+    // - window
+    if ( jBone.type( obj ) !== "object" || obj.nodeType || jBone.isWindow( obj ) ) {
+      return false;
+    }
+
+    if ( obj.constructor &&
+      !hasOwn.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
+      return false;
+    }
+
+    // If the function hasn't returned already, we're confident that
+    // |obj| is a plain object, created by {} or constructed with new Object
+    return true;
+  },
+
+  isEmptyObject: function( obj ) {
+    var name;
+    for ( name in obj ) {
+      return false;
+    }
+    return true;
+  },
+  type: function( obj ) {
+    if ( obj == null ) {
+      return obj + "";
+    }
+    // Support: Android<4.0 (functionish RegExp)
+    return typeof obj === "object" || typeof obj === "function" ?
+    class2type[ toString.call(obj) ] || "object" :
+      typeof obj;
+  }
+});
 fn.click = function() {
     return this.trigger("click");
 };
@@ -44,6 +104,110 @@ fn.scrollTop = function() {
 
 fn.bind = fn.on;
 
+/**
+ * Created by Paul on 4/15/2015.
+ */
+
+var dim = { Height: "height", Width: "width" };
+var keys = Object.keys;
+keys(dim).forEach( function( name ) {
+  var type = dim[name];
+  var content = { padding: "inner" + name, content: type, "": "outer" + name };
+  keys(content).forEach( function( defaultExtra) {
+    var funcName = content[defaultExtra];
+    // Margin is only for outerHeight, outerWidth
+    jBone.fn[ funcName ] = function( margin, value ) {
+      var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
+        extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
+
+      return access( this, function( elem, type, value ) {
+        var doc;
+
+        if ( jBone.isWindow( elem ) ) {
+          // As of 5/8/2012 this will yield incorrect results for Mobile Safari, but there
+          // isn't a whole lot we can do. See pull request at this URL for discussion:
+          // https://github.com/jquery/jquery/pull/764
+          return elem.document.documentElement[ "client" + name ];
+        }
+
+        // Get document width or height
+        if ( elem.nodeType === 9 ) {
+          doc = elem.documentElement;
+
+          // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
+          // whichever is greatest
+          return Math.max(
+            elem.body[ "scroll" + name ], doc[ "scroll" + name ],
+            elem.body[ "offset" + name ], doc[ "offset" + name ],
+            doc[ "client" + name ]
+          );
+        }
+
+        return value === undefined ?
+          // Get width or height on the element, requesting but not forcing parseFloat
+          jBone.css( elem, type, extra ) :
+
+          // Set width or height on the element
+          jBone.style( elem, type, value, extra );
+      }, type, chainable ? margin : undefined, chainable, null );
+    };
+  });
+});
+
+/**
+ * Created by Paul on 4/15/2015.
+ */
+
+var access = jBone.access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
+  var i = 0,
+    len = elems.length,
+    bulk = key == null;
+
+  // Sets many values
+  if ( jBone.type( key ) === "object" ) {
+    chainable = true;
+    for ( i in key ) {
+      access( elems, fn, i, key[i], true, emptyGet, raw );
+    }
+
+    // Sets one value
+  } else if ( value !== undefined ) {
+    chainable = true;
+
+    if ( !jBone.isFunction( value ) ) {
+      raw = true;
+    }
+
+    if ( bulk ) {
+      // Bulk operations run against the entire set
+      if ( raw ) {
+        fn.call( elems, value );
+        fn = null;
+
+        // ...except when executing function values
+      } else {
+        bulk = fn;
+        fn = function( elem, key, value ) {
+          return bulk.call( jBone( elem ), value );
+        };
+      }
+    }
+
+    if ( fn ) {
+      for ( ; i < len; i++ ) {
+        fn( elems[i], key, raw ? value : value.call( elems[i], i, fn( elems[i], key ) ) );
+      }
+    }
+  }
+
+  return chainable ?
+    elems :
+
+    // Gets
+    bulk ?
+      fn.call( elems ) :
+      len ? fn( elems[0], key ) : emptyGet;
+};
 fn.prop = function(name, value) {
     var result;
 

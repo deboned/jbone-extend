@@ -10,6 +10,8 @@ module.exports = function(grunt) {
       "build/topper.js",
       "src/core.js",
       "src/alias.js",
+      "src/dimensions.js",
+      "src/access.js",
       "src/attributes.js",
       "src/effects.js",
       "src/manipulation.js",
