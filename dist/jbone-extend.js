@@ -412,6 +412,23 @@ jBone.proxy = function(fn, context) {
 };
 
 
+/**
+ * Created by Paul on 4/14/2015.
+ */
+
+jBone.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
+  "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+  "change select submit keydown keypress keyup error contextmenu").split(" "),
+  function( i, name ) {
+
+    // Handle event binding
+    jBone.fn[ name ] = function( data, fn ) {
+      return arguments.length > 0 ?
+        this.on( name, null, data, fn ) :
+        this.trigger( name );
+    };
+  });
+
 if (typeof module === "object" && module && typeof module.exports === "object") {
     // Expose jBone as module.exports in loaders that implement the Node
     // module pattern (including browserify). Do not create the global, since

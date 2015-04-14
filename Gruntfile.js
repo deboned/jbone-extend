@@ -15,6 +15,7 @@ module.exports = function(grunt) {
       "src/sizzle.js",
       "src/traversing.js",
       "src/utilities.js",
+      "src/events.js",
       "build/footer.js"
     ],
     meta: {
