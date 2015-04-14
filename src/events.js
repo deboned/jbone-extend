@@ -14,3 +14,5 @@
         this.trigger( name );
     };
   });
+
+jBone.event.special= {};

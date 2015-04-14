@@ -436,6 +436,7 @@ jBone.proxy = function(fn, context) {
     };
   });
 
+jBone.event.special= {};
 if (typeof module === "object" && module && typeof module.exports === "object") {
     // Expose jBone as module.exports in loaders that implement the Node
     // module pattern (including browserify). Do not create the global, since
