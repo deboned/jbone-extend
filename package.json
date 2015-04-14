@@ -19,7 +19,7 @@
     "marionette",
     "bootstrap"
   ],
-  "author": "Paul Apostol",
+  "author": ["Alexey Kupriyanenko", "Paul Apostol"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deboned/jbone-extend/issues"

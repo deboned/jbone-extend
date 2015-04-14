@@ -3,7 +3,7 @@
  *
  * https://github.com/deboned/jbone-extend
  *
- * Copyright 2015 Paul Apostol
+ * Copyright 2015 Alexey Kupriyanenko,Paul Apostol
  * Released under the MIT license.
  */
 
