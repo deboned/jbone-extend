@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       "src/manipulation.js",
       "src/sizzle.js",
       "src/traversing.js",
-      "build/utilities.js",
+      "src/utilities.js",
       "build/footer.js"
     ],
     meta: {
