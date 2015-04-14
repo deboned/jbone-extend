@@ -1,6 +1,7 @@
 {
   "name": "jbone-extend",
   "version": "0.0.1",
+  "main": "dist/jbone-extend.js",
   "homepage": "https://github.com/deboned/jbone-extend",
   "authors": [
     "Paul Apostol <devel.pa@gmail.com>"
