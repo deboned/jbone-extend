@@ -8,6 +8,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
     src: [
       "build/topper.js",
+      "src/core.js",
       "src/alias.js",
       "src/attributes.js",
       "src/effects.js",
