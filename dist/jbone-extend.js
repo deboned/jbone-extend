@@ -9,6 +9,8 @@
 
 (function (win) {
 
+var fn = jBone.fn;
+
 fn.click = function() {
     return this.trigger("click");
 };
