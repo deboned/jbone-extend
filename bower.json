@@ -4,6 +4,7 @@
   "main": "dist/jbone-extend.js",
   "homepage": "https://github.com/deboned/jbone-extend",
   "authors": [
+    "Alexey Kupriyanenko",
     "Paul Apostol <devel.pa@gmail.com>"
   ],
   "description": "Extend jbone for use with other libs than Bb.",
