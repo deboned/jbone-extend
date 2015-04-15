@@ -11,11 +11,11 @@ var class2type = function() {
 };
 
 jBone.extend(jBone, {
-  isFunction: function( obj ) {
-    return jBone.type(obj) === "function";
-  },
+  //isFunction: function( obj ) {
+  //  return jBone.type(obj) === "function";
+  //},
 
-  isArray: Array.isArray,
+  //isArray: Array.isArray,
 
   isWindow: function( obj ) {
     return obj != null && obj === obj.window;

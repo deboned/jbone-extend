@@ -24,11 +24,11 @@ var class2type = function() {
 };
 
 jBone.extend(jBone, {
-  isFunction: function( obj ) {
-    return jBone.type(obj) === "function";
-  },
+  //isFunction: function( obj ) {
+  //  return jBone.type(obj) === "function";
+  //},
 
-  isArray: Array.isArray,
+  //isArray: Array.isArray,
 
   isWindow: function( obj ) {
     return obj != null && obj === obj.window;
@@ -230,52 +230,52 @@ fn.prop = function(name, value) {
     return this;
 };
 
-fn.removeAttr = function(name) {
-    this.forEach(function(el) {
-        el.removeAttribute(name);
-    });
-};
+//fn.removeAttr = function(name) {
+//    this.forEach(function(el) {
+//        el.removeAttribute(name);
+//    });
+//};
 
-fn.addClass = function(className) {
-    var i = 0,
-        j = 0,
-        length = this.length,
-        classes;
+//fn.addClass = function(className) {
+//    var i = 0,
+//        j = 0,
+//        length = this.length,
+//        classes;
+//
+//    for (; i < length; i++) {
+//        classes = className.trim().split(/\s+/);
+//
+//        for (; j < classes.length; j++) {
+//            this[i].classList.add(classes[j]);
+//        }
+//    }
+//
+//    return this;
+//};
 
-    for (; i < length; i++) {
-        classes = className.trim().split(/\s+/);
+//fn.removeClass = function(className) {
+//    this.forEach(function(el) {
+//        className.split(" ").forEach(function(className) {
+//            el.classList.remove(className);
+//        });
+//    });
+//
+//    return this;
+//};
 
-        for (; j < classes.length; j++) {
-            this[i].classList.add(classes[j]);
-        }
-    }
+//fn.hasClass = function(className) {
+//    return this.some(function(el) {
+//        return el.classList.contains(className);
+//    });
+//};
 
-    return this;
-};
-
-fn.removeClass = function(className) {
-    this.forEach(function(el) {
-        className.split(" ").forEach(function(className) {
-            el.classList.remove(className);
-        });
-    });
-
-    return this;
-};
-
-fn.hasClass = function(className) {
-    return this.some(function(el) {
-        return el.classList.contains(className);
-    });
-};
-
-fn.toggleClass = function(className) {
-    this.forEach(function(el) {
-        el.classList.toggle(className);
-    });
-
-    return this;
-};
+//fn.toggleClass = function(className) {
+//    this.forEach(function(el) {
+//        el.classList.toggle(className);
+//    });
+//
+//    return this;
+//};
 
 function isHidden(el) {
     return win.getComputedStyle(el).display === "none";
@@ -410,7 +410,7 @@ fn.closest = function(selector) {
     target = this[0];
 
     parents.some(function(parent) {
-        return result = jBone.contains(jBone(parent), target);
+        return result = jBone.contains(parent, target);
     });
 
     return jBone(result);
