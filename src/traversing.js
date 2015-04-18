@@ -5,7 +5,8 @@ fn.closest = function(selector) {
     target = this[0];
 
     parents.some(function(parent) {
-        return result = jBone.contains(parent, target);
+        if (jBone.contains(parent, target))
+            return result = parent;
     });
 
     return jBone(result);
