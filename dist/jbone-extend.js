@@ -530,30 +530,30 @@ fn.index = function(element) {
     }
 };
 
-fn.is = function(match) {
-    match = match.split(", ");
-
-    return this.some(function(el) {
-        return match.some(function(match) {
-            // check visible
-            if (match === ":visible") {
-                return el.offsetWidth > 0 || el.offsetHeight > 0;
-            }
-            // check attribute
-            else if (match[0] === ":") {
-                return el.getAttribute(match.split(":")[1]) !== null;
-            }
-            // check class
-            else if (match[0] === ".") {
-                return el.classList.contains(match.split(".")[1]);
-            }
-            // check tagName
-            else if (el.tagName.toLowerCase() === match) {
-                return true;
-            }
-        });
-    });
-};
+//fn.is = function(match) {
+//    match = match.split(", ");
+//
+//    return this.some(function(el) {
+//        return match.some(function(match) {
+//            // check visible
+//            if (match === ":visible") {
+//                return el.offsetWidth > 0 || el.offsetHeight > 0;
+//            }
+//            // check attribute
+//            else if (match[0] === ":") {
+//                return el.getAttribute(match.split(":")[1]) !== null;
+//            }
+//            // check class
+//            else if (match[0] === ".") {
+//                return el.classList.contains(match.split(".")[1]);
+//            }
+//            // check tagName
+//            else if (el.tagName.toLowerCase() === match) {
+//                return true;
+//            }
+//        });
+//    });
+//};
 
 jBone.support = {};
 
