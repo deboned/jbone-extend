@@ -1,5 +1,5 @@
 /*!
- *  v0.0.1 - 2015-04-15 - Extend jbone for use with other libs than Bb.
+ *  v0.0.1 - 2015-04-18 - Extend jbone for use with other libs than Bb.
  *
  * https://github.com/deboned/jbone-extend
  *
@@ -410,7 +410,9 @@ fn.closest = function(selector) {
     target = this[0];
 
     parents.some(function(parent) {
-        return result = jBone.contains(parent, target);
+        if (jBone.contains(parent, target)) {
+            return result = parent;
+        }
     });
 
     return jBone(result);
